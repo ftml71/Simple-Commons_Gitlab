@@ -432,7 +432,11 @@ class CustomizationActivity : BaseSimpleActivity() {
     }
 
     private fun handleAccentColorLayout() {
-        customization_accent_color_holder.beVisibleIf(curSelectedThemeId == THEME_WHITE || isCurrentWhiteTheme() || curSelectedThemeId == THEME_BLACK_WHITE || isCurrentBlackAndWhiteTheme())
+        /**
+         * mahsa ==> customization_accent_color_holder beVisible for all theme
+         */
+        //customization_accent_color_holder.beVisibleIf(curSelectedThemeId == THEME_WHITE || isCurrentWhiteTheme() || curSelectedThemeId == THEME_BLACK_WHITE || isCurrentBlackAndWhiteTheme())
+        customization_accent_color_holder.beVisibleIf(true== isCurrentWhiteTheme())
         customization_accent_color_label.text = getString(
             if (curSelectedThemeId == THEME_WHITE || isCurrentWhiteTheme()) {
                 R.string.accent_color_white
