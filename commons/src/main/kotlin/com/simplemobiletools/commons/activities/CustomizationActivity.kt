@@ -138,10 +138,10 @@ class CustomizationActivity : BaseSimpleActivity() {
             put(
                 THEME_DARK,
                 /**
-                 * mahsa ==> MyTheme(R.string.dark_theme) changed
+                 * mahsa ==> MyTheme(R.string.dark_theme) and primaryColorId changed
                  */
                 //MyTheme(R.string.dark_theme, R.color.theme_dark_text_color, R.color.theme_dark_background_color, R.color.color_primary, R.color.color_primary)
-                MyTheme(R.string.dark_theme, R.color.theme_dark_text_color, R.color.theme_dark_background_color, R.color.color_primary, R.color.color_primary_night)
+                MyTheme(R.string.dark_theme, R.color.theme_dark_text_color, R.color.theme_dark_background_color, R.color.color_background_night, R.color.color_primary_night)
             )
             //put(THEME_SOLARIZED, MyTheme(R.string.solarized, R.color.theme_solarized_text_color, R.color.theme_solarized_background_color, R.color.theme_solarized_primary_color))
             put(
