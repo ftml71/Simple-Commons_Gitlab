@@ -9,7 +9,7 @@ fun Activity.getThemeId(color: Int = baseConfig.primaryColor, showTransparentTop
     /**
     * mahsa ==> isDarkTheme added
     */
-    isDarkTheme() -> if (true) R.style.AppTheme_Dark else R.style.AppTheme_White
+    isDarkTheme() -> if (true) R.style.AppTheme_Dark else R.style.AppTheme_Dark
     showTransparentTop -> {
         when (color) {
             -12846 -> R.style.AppTheme_Red_100_core
