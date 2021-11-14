@@ -15,12 +15,14 @@
     <!--        <item name="colorControlHighlight">@color/activated_item_foreground</item>-->
     <!--        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>-->
     <!--    </style>-->
-    <!--mahsa style name="AppTheme.Base" colorOnSecondary and colorBackground added ,color of colorPrimary and colorPrimaryDark and colorAccent and textColor changed-->
+    <!--mahsa style name="AppTheme.Base" colorOnSecondary and cardBackgroundColor and colorSurface and colorBackground added ,color of colorPrimary and colorPrimaryDark and colorAccent and textColor changed-->
     <style name="AppTheme.Base" parent="Theme.AppCompat">
         <item name="colorPrimary">#E9E9EA</item>
         <item name="colorPrimaryDark">#E9E9EA</item>
         <item name="android:colorBackground">#F2F2F2</item>
         <item name="colorOnSecondary">@color/white</item>
+        <item name="cardBackgroundColor">#3F8F42</item>
+        <item name="colorSurface">#FFEB3B</item>
         <item name="colorAccent">#EC8E5F</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
         <item name="spinnerDropDownItemStyle">@style/SpinnerItem.DropDownItem</item>
