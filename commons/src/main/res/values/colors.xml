@@ -4,13 +4,13 @@
 <!--    <color name="color_primary_dark">#FFD76D00</color>-->
 <!--    <color name="color_accent">@color/color_primary</color>-->
     <!--mahsa color_primary changed-->
-    <color name="color_primary">#E9E9EA</color>
+    <color name="color_primary">#fff2f2f2</color>
     <!-- mahsa color_background_night added-->
-    <color name="color_background_night">#080809</color>
+    <color name="color_background_night">#ff222222</color>
     <!-- mahsa color_background added-->
     <color name="color_background">#F2F2F2</color>
     <!-- mahsa color_primary_night added-->
-    <color name="color_primary_night">#080808</color>
+    <color name="color_primary_night">#ff222222</color>
     <!--mahsa color_primary_dark changed-->
     <color name="color_primary_dark">#E9E9EA</color>
     <!--mahsa color_accent changed-->
@@ -228,16 +228,16 @@
 
 <!--    <color name="md_grey_white">#FFFFFF</color>-->
 <!--    mahsa md_grey_white and md_grey_600 and md_grey_800 changed-->
-    <color name="md_grey_white">#F2F2F2</color>
+    <color name="md_grey_white">#fff2f2f2</color>
     <color name="md_grey_200">#EEEEEE</color>
     <color name="md_grey_300">#E0E0E0</color>
     <color name="md_grey_400">#BDBDBD</color>
     <color name="md_grey_500">#9E9E9E</color>
 <!--    <color name="md_grey_600">#757575</color>-->
-    <color name="md_grey_600">#797979</color>
+    <color name="md_grey_600">#ff252525</color>
     <color name="md_grey_700">#616161</color>
 <!--    <color name="md_grey_800">#424242</color>-->
-    <color name="md_grey_800">#080809</color>
+    <color name="md_grey_800">#ff222222</color>
     <color name="md_grey_black">#000000</color>
 
     <color name="md_grey_white_dark">#DFDFDF</color>
