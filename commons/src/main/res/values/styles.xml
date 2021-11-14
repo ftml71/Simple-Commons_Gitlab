@@ -119,8 +119,8 @@
     </style>
 
     <style name="LightActionBarItems" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorAccent">@color/white</item>
-        <item name="android:textColorHint">@color/hint_white</item>
+        <item name="colorAccent">@color/dark_grey</item>
+        <item name="android:textColorHint">@color/color_background_night</item>
     </style>
 
     <style name="DarkActionBarItems" parent="ThemeOverlay.AppCompat.ActionBar">
