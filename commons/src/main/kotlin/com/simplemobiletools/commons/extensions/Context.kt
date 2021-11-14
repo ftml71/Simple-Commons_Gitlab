@@ -105,9 +105,15 @@ fun Context.getLinkTextColor(): Int {
 fun Context.isBlackAndWhiteTheme() = baseConfig.textColor == Color.WHITE && baseConfig.primaryColor == Color.BLACK && baseConfig.backgroundColor == Color.BLACK
 
 fun Context.isWhiteTheme() = baseConfig.textColor == DARK_GREY && baseConfig.primaryColor == Color.WHITE && baseConfig.backgroundColor == Color.WHITE
-
+/**
+ * mahsa ==> isDarkTheme added
+ */
+fun Context.isDarkTheme() = baseConfig.textColor == R.color.theme_dark_text_color && baseConfig.primaryColor == R.color.color_background_night && baseConfig.backgroundColor == R.color.theme_dark_background_color
 fun Context.getAdjustedPrimaryColor() = when {
-    isWhiteTheme() || isBlackAndWhiteTheme() -> baseConfig.accentColor
+    /**
+     * mahsa ==> isDarkTheme added
+     */
+    isWhiteTheme() || isBlackAndWhiteTheme() || isDarkTheme() -> baseConfig.accentColor
     else -> baseConfig.primaryColor
 }
 
