@@ -61,7 +61,8 @@
     <string name="must_make_default_dialer">You have to make this app the default dialer app to make use of blocked numbers.</string>
     <string name="set_as_default">Set as default</string>
     <string name="block_confirmation">Are you sure you want to block \"%s\"?</string>
-
+    <!--    mahsa "unblock_number" added-->
+    <string name="unblock_number">Unblock number</string>
     <!-- Favorites -->
     <string name="favorites">Favorites</string>
     <string name="add_favorites">Add favorites</string>
