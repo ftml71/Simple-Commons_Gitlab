@@ -244,7 +244,11 @@ class CustomizationActivity : BaseSimpleActivity() {
                 curTextColor = getColor(theme.textColorId)
                 curBackgroundColor = getColor(theme.backgroundColorId)
                 curPrimaryColor = getColor(theme.primaryColorId)
-                curAccentColor = getColor(R.color.color_primary)
+                /**
+                 * mahsa ==> the color of curAccentColor changed
+                 */
+                //curAccentColor = getColor(R.color.color_primary)
+                curAccentColor = getColor(R.color.color_accent)
                 curAppIconColor = getColor(theme.appIconColorId)
                 curNavigationBarColor = getThemeNavigationColor(curSelectedThemeId)
                 setTheme(getThemeId(curPrimaryColor))
