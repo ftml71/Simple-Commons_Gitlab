@@ -47,6 +47,8 @@
     <string name="translators_portuguese">ailmcoll, floppyD, hugomg, marciozomb13, matheusvictor, RodolfoCandido, rodymacedo, smarquespt</string>
     <string name="translators_russian">antonv6, AVM77, macbaze, solokot, trubitsyn</string>
     <string name="translators_serbian"></string>
+    <!--mahsa ==> translation_romanian added-->
+    <string name="translation_romanian"></string>
     <string name="translators_slovak">tibbi</string>
     <string name="translators_slovenian">franga2000, rmajc</string>
     <string name="translators_spanish">FredMan95, Guzleon, MarcAbonce, mlopezgva, Yngvar-Skjaldulfsson</string>
