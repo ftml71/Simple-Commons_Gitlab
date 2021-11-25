@@ -86,9 +86,9 @@
     <style name="PinNumberStyle" parent="PinNumberStyle.Base">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
-
+    <!--mahsa ==> background removed-->
     <style name="Base.Widget.AppCompat.ActionMode" parent="">
-        <item name="background">@drawable/actionmenu_background</item>
+<!--        <item name="background">@drawable/actionmenu_background</item>-->
         <item name="backgroundSplit">?attr/actionModeSplitBackground</item>
         <item name="height">?attr/actionBarSize</item>
         <item name="titleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionMode.Title</item>
