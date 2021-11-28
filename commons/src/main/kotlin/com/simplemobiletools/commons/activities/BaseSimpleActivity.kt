@@ -3,6 +3,7 @@ package com.simplemobiletools.commons.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.RecoverableSecurityException
 import android.app.role.RoleManager
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -54,10 +55,12 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
 
     private val GENERIC_PERM_HANDLER = 100
     private val DELETE_FILE_SDK_30_HANDLER = 300
+    private val RECOVERABLE_SECURITY_HANDLER = 301
 
     companion object {
         var funAfterSAFPermission: ((success: Boolean) -> Unit)? = null
         var funAfterDelete30File: ((success: Boolean) -> Unit)? = null
+        var funRecoverableSecurity: ((success: Boolean) -> Unit)? = null
     }
 
     abstract fun getAppIconIDs(): ArrayList<Int>
@@ -101,14 +104,10 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         updateNavigationBarColor()
     }
 
-    override fun onStop() {
-        super.onStop()
-        actionOnPermission = null
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         funAfterSAFPermission = null
+        actionOnPermission = null
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -148,7 +147,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
     fun updateStatusbarColor(color: Int) {
-        window.statusBarColor = color.darkenColor()
+        window.statusBarColor = color
 
         if (isMarshmallowPlus()) {
             if (color.getContrastColor() == 0xFF333333.toInt()) {
@@ -233,13 +232,41 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         } catch (e: Exception) {
             ""
         }
+
         val sdOtgPattern = Pattern.compile(SD_OTG_SHORT)
 
-        if (requestCode == OPEN_DOCUMENT_TREE) {
+        if (requestCode == OPEN_DOCUMENT_TREE_FOR_ANDROID_DATA_OR_OBB) {
+            if (resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
+                if (isProperAndroidRoot(checkedDocumentPath, resultData.data!!)) {
+                    if (resultData.dataString == baseConfig.OTGTreeUri || resultData.dataString == baseConfig.sdTreeUri) {
+                        toast(R.string.wrong_root_selected)
+                        return
+                    }
+
+                    val treeUri = resultData.data
+                    storeAndroidTreeUri(checkedDocumentPath, treeUri.toString())
+
+                    val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    applicationContext.contentResolver.takePersistableUriPermission(treeUri!!, takeFlags)
+                    funAfterSAFPermission?.invoke(true)
+                    funAfterSAFPermission = null
+                } else {
+                    toast(R.string.wrong_root_selected)
+                    Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+                        if (isRPlus()) {
+                            putExtra(DocumentsContract.EXTRA_INITIAL_URI, createAndroidDataOrObbUri(checkedDocumentPath))
+                        }
+                        startActivityForResult(this, requestCode)
+                    }
+                }
+            } else {
+                funAfterSAFPermission?.invoke(false)
+            }
+        } else if (requestCode == OPEN_DOCUMENT_TREE_SD) {
             if (resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
                 val isProperPartition = partition.isEmpty() || !sdOtgPattern.matcher(partition).matches() || (sdOtgPattern.matcher(partition)
                     .matches() && resultData.dataString!!.contains(partition))
-                if (isProperSDFolder(resultData.data!!) && isProperPartition) {
+                if (isProperSDRootFolder(resultData.data!!) && isProperPartition) {
                     if (resultData.dataString == baseConfig.OTGTreeUri) {
                         toast(R.string.sd_card_usb_same)
                         return
@@ -260,8 +287,8 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
                 val isProperPartition = partition.isEmpty() || !sdOtgPattern.matcher(partition).matches() || (sdOtgPattern.matcher(partition)
                     .matches() && resultData.dataString!!.contains(partition))
-                if (isProperOTGFolder(resultData.data!!) && isProperPartition) {
-                    if (resultData.dataString == baseConfig.treeUri) {
+                if (isProperOTGRootFolder(resultData.data!!) && isProperPartition) {
+                    if (resultData.dataString == baseConfig.sdTreeUri) {
                         funAfterSAFPermission?.invoke(false)
                         toast(R.string.sd_card_usb_same)
                         return
@@ -288,26 +315,42 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             exportSettingsTo(outputStream, configItemsToExport)
         } else if (requestCode == DELETE_FILE_SDK_30_HANDLER) {
             funAfterDelete30File?.invoke(resultCode == Activity.RESULT_OK)
+        } else if (requestCode == RECOVERABLE_SECURITY_HANDLER) {
+            funRecoverableSecurity?.invoke(resultCode == Activity.RESULT_OK)
+            funRecoverableSecurity = null
         }
     }
 
     private fun saveTreeUri(resultData: Intent) {
         val treeUri = resultData.data
-        baseConfig.treeUri = treeUri.toString()
+        baseConfig.sdTreeUri = treeUri.toString()
 
         val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
         applicationContext.contentResolver.takePersistableUriPermission(treeUri!!, takeFlags)
     }
 
-    private fun isProperSDFolder(uri: Uri) = isExternalStorageDocument(uri) && isRootUri(uri) && !isInternalStorage(uri)
+    private fun isProperSDRootFolder(uri: Uri) = isExternalStorageDocument(uri) && isRootUri(uri) && !isInternalStorage(uri)
+    private fun isProperSDFolder(uri: Uri) = isExternalStorageDocument(uri) && !isInternalStorage(uri)
 
-    private fun isProperOTGFolder(uri: Uri) = isExternalStorageDocument(uri) && isRootUri(uri) && !isInternalStorage(uri)
+    private fun isProperOTGRootFolder(uri: Uri) = isExternalStorageDocument(uri) && isRootUri(uri) && !isInternalStorage(uri)
+    private fun isProperOTGFolder(uri: Uri) = isExternalStorageDocument(uri) && !isInternalStorage(uri)
 
-    private fun isRootUri(uri: Uri) = DocumentsContract.getTreeDocumentId(uri).endsWith(":")
+    private fun isRootUri(uri: Uri) = uri.lastPathSegment?.endsWith(":") ?: false
 
     private fun isInternalStorage(uri: Uri) = isExternalStorageDocument(uri) && DocumentsContract.getTreeDocumentId(uri).contains("primary")
+    private fun isAndroidDir(uri: Uri) = isExternalStorageDocument(uri) && DocumentsContract.getTreeDocumentId(uri).contains(":Android")
+    private fun isInternalStorageAndroidDir(uri: Uri) = isInternalStorage(uri) && isAndroidDir(uri)
+    private fun isOTGAndroidDir(uri: Uri) = isProperOTGFolder(uri) && isAndroidDir(uri)
+    private fun isSDAndroidDir(uri: Uri) = isProperSDFolder(uri) && isAndroidDir(uri)
+    private fun isExternalStorageDocument(uri: Uri) = EXTERNAL_STORAGE_PROVIDER_AUTHORITY == uri.authority
 
-    private fun isExternalStorageDocument(uri: Uri) = "com.android.externalstorage.documents" == uri.authority
+    private fun isProperAndroidRoot(path: String, uri: Uri): Boolean {
+        return when {
+            isPathOnOTG(path) -> isOTGAndroidDir(uri)
+            isPathOnSD(path) -> isSDAndroidDir(uri)
+            else -> isInternalStorageAndroidDir(uri)
+        }
+    }
 
     fun startAboutActivity(appNameId: Int, licenseMask: Int, versionName: String, faqItems: ArrayList<FAQItem>, showFAQBeforeMail: Boolean) {
         Intent(applicationContext, AboutActivity::class.java).apply {
@@ -375,6 +418,19 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    fun handleAndroidSAFDialog(path: String, callback: (success: Boolean) -> Unit): Boolean {
+        return if (!packageName.startsWith("com.simplemobiletools")) {
+            callback(true)
+            false
+        } else if (isShowingAndroidSAFDialog(path)) {
+            funAfterSAFPermission = callback
+            true
+        } else {
+            callback(true)
+            false
+        }
+    }
+
     fun handleOTGPermission(callback: (success: Boolean) -> Unit) {
         if (baseConfig.OTGTreeUri.isNotEmpty()) {
             callback(true)
@@ -415,6 +471,22 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NewApi")
+    fun handleRecoverableSecurityException(callback: (success: Boolean) -> Unit) {
+        try {
+            callback.invoke(true)
+        } catch (securityException: SecurityException) {
+            if (isQPlus()) {
+                funRecoverableSecurity = callback
+                val recoverableSecurityException = securityException as? RecoverableSecurityException ?: throw securityException
+                val intentSender = recoverableSecurityException.userAction.actionIntent.intentSender
+                startIntentSenderForResult(intentSender, RECOVERABLE_SECURITY_HANDLER, null, 0, 0, 0)
+            } else {
+                callback(false)
+            }
+        }
+    }
+
     fun copyMoveFilesTo(
         fileDirItems: ArrayList<FileDirItem>, source: String, destination: String, isCopyOperation: Boolean, copyPhotoVideoOnly: Boolean,
         copyHidden: Boolean, callback: (destinationPath: String) -> Unit
@@ -440,7 +512,10 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             if (isCopyOperation) {
                 startCopyMove(fileDirItems, destination, isCopyOperation, copyPhotoVideoOnly, copyHidden)
             } else {
-                if (isPathOnOTG(source) || isPathOnOTG(destination) || isPathOnSD(source) || isPathOnSD(destination) || fileDirItems.first().isDirectory) {
+                if (isPathOnOTG(source) || isPathOnOTG(destination) || isPathOnSD(source) || isPathOnSD(destination) || isRestrictedSAFOnlyRoot(source) || isRestrictedSAFOnlyRoot(
+                        destination
+                    ) || fileDirItems.first().isDirectory
+                ) {
                     handleSAFDialog(source) {
                         if (it) {
                             startCopyMove(fileDirItems, destination, isCopyOperation, copyPhotoVideoOnly, copyHidden)

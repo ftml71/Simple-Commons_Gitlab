@@ -108,6 +108,28 @@
     <style name="PinNumberStyle" parent="PinNumberStyle.Base">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
+
+    <style name="ColoredButtonStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textFontWeight">600</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">@dimen/normal_text_size</item>
+        <item name="android:paddingStart">@dimen/bigger_margin</item>
+        <item name="android:paddingEnd">@dimen/bigger_margin</item>
+        <item name="android:paddingTop">@dimen/activity_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_margin</item>
+        <item name="android:background">@drawable/button_background_rounded</item>
+    </style>
+
+    <style name="StrokeButtonStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textFontWeight">600</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">@dimen/normal_text_size</item>
+        <item name="android:paddingStart">@dimen/bigger_margin</item>
+        <item name="android:paddingEnd">@dimen/bigger_margin</item>
+        <item name="android:paddingTop">@dimen/activity_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_margin</item>
+        <item name="android:background">@drawable/button_background_stroke</item>
+    </style>
     <!--mahsa ==> background removed-->
     <style name="Base.Widget.AppCompat.ActionMode" parent="">
 <!--        <item name="background">@drawable/actionmenu_background</item>-->
@@ -136,6 +158,49 @@
 
     <style name="BottomSheetModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_bg</item>
+    </style>
+
+    <style name="SettingsSectionLabelStyle">
+        <item name="android:layout_marginTop">@dimen/activity_margin</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/big_text_size</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="SettingsCheckboxStyle">
+        <item name="android:background">@null</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:paddingStart">@dimen/medium_margin</item>
+    </style>
+
+    <style name="SettingsTextLabelStyle">
+        <item name="android:textSize">@dimen/normal_text_size</item>
+    </style>
+
+    <style name="SettingsTextValueStyle">
+        <item name="android:alpha">0.6</item>
+        <item name="android:textFontWeight">300</item>
+        <item name="android:textSize">@dimen/normal_text_size</item>
+    </style>
+
+    <style name="SettingsHolderCheckboxStyle">
+        <item name="android:paddingStart">@dimen/activity_margin</item>
+        <item name="android:paddingTop">@dimen/normal_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_margin</item>
+        <item name="android:paddingBottom">@dimen/normal_margin</item>
+    </style>
+
+    <style name="SettingsHolderTextViewStyle">
+        <item name="android:paddingStart">@dimen/activity_margin</item>
+        <item name="android:paddingTop">@dimen/activity_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_margin</item>
+    </style>
+
+    <style name="SettingsHolderTextViewOneLinerStyle" parent="@style/SettingsHolderTextViewStyle">
+        <item name="android:paddingTop">@dimen/bigger_margin</item>
+        <item name="android:paddingBottom">@dimen/bigger_margin</item>
     </style>
 
     <!-- App themes -->

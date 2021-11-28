@@ -14,7 +14,7 @@ import androidx.core.view.ViewCompat
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.models.FileDirItem
-import kotlinx.android.synthetic.main.breadcrumb_item.view.*
+import kotlinx.android.synthetic.main.item_breadcrumb.view.*
 
 class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(context, attrs) {
     private val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -37,9 +37,9 @@ class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(
             )
         )
 
+    var listener: BreadcrumbsListener? = null
     val itemsCount: Int
         get() = itemsLayout.childCount
-    var listener: BreadcrumbsListener? = null
 
     init {
         isHorizontalScrollBarEnabled = false
@@ -137,17 +137,18 @@ class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(
         } else {
             selectedItemView.right - width + itemsLayout.paddingStart
         }
+
         if (!isFirstScroll && isShown) {
             smoothScrollTo(scrollX, 0)
         } else {
             scrollTo(scrollX, 0)
         }
+
         isFirstScroll = false
     }
 
     override fun requestLayout() {
         isLayoutDirty = true
-
         super.requestLayout()
     }
 
@@ -177,13 +178,12 @@ class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(
     }
 
     private fun addBreadcrumb(item: FileDirItem, index: Int, addPrefix: Boolean) {
-
         if (itemsLayout.childCount == 0) {
-            inflater.inflate(R.layout.breadcrumb_first_item, itemsLayout, false).apply {
+            inflater.inflate(R.layout.item_breadcrumb_first, itemsLayout, false).apply {
                 resources.apply {
                     breadcrumb_text.background = ContextCompat.getDrawable(context, R.drawable.button_background)
                     breadcrumb_text.background.applyColorFilter(textColor)
-                    elevation = getDimension(R.dimen.medium_margin)
+                    elevation = 1f
                     background = ColorDrawable(context.baseConfig.backgroundColor)
                     val medium = getDimension(R.dimen.medium_margin).toInt()
                     breadcrumb_text.setPadding(medium, medium, medium, medium)
@@ -206,7 +206,7 @@ class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(
                 tag = item
             }
         } else {
-            inflater.inflate(R.layout.breadcrumb_item, itemsLayout, false).apply {
+            inflater.inflate(R.layout.item_breadcrumb, itemsLayout, false).apply {
                 var textToAdd = item.name
                 if (addPrefix) {
                     textToAdd = "> $textToAdd"
@@ -252,7 +252,6 @@ class Breadcrumbs(context: Context, attrs: AttributeSet) : HorizontalScrollView(
     fun getItem(index: Int) = itemsLayout.getChildAt(index).tag as FileDirItem
 
     fun getLastItem() = itemsLayout.getChildAt(itemsLayout.childCount - 1).tag as FileDirItem
-
 
     interface BreadcrumbsListener {
         fun breadcrumbClicked(id: Int)

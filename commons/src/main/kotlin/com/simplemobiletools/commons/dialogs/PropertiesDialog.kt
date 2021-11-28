@@ -17,7 +17,7 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FileDirItem
 import kotlinx.android.synthetic.main.dialog_properties.view.*
-import kotlinx.android.synthetic.main.property_item.view.*
+import kotlinx.android.synthetic.main.item_property.view.*
 import java.io.File
 import java.util.*
 
@@ -93,6 +93,12 @@ class PropertiesDialog() {
                     } catch (e: Exception) {
                         return@ensureBackgroundThread
                     }
+                } else if (activity.isRestrictedSAFOnlyRoot(path)) {
+                    try {
+                        ExifInterface(activity.contentResolver.openInputStream(activity.getAndroidSAFUri(path))!!)
+                    } catch (e: Exception) {
+                        return@ensureBackgroundThread
+                    }
                 } else {
                     ExifInterface(fileDirItem.path)
                 }
@@ -149,9 +155,18 @@ class PropertiesDialog() {
             if (activity.baseConfig.appId.removeSuffix(".debug") == "com.simplemobiletools.filemanager.pro") {
                 addProperty(R.string.md5, "…", R.id.properties_md5)
                 ensureBackgroundThread {
-                    val md5 = File(path).md5()
+                    val md5 = if (activity.isRestrictedSAFOnlyRoot(path)) {
+                        activity.contentResolver.openInputStream(activity.getAndroidSAFUri(path))?.md5()
+                    } else {
+                        File(path).md5()
+                    }
+
                     activity.runOnUiThread {
-                        (view.findViewById<LinearLayout>(R.id.properties_md5).property_value as TextView).text = md5
+                        if (md5 != null) {
+                            (view.findViewById<LinearLayout>(R.id.properties_md5).property_value as TextView).text = md5
+                        } else {
+                            view.findViewById<LinearLayout>(R.id.properties_md5).beGone()
+                        }
                     }
                 }
             }
@@ -225,6 +240,12 @@ class PropertiesDialog() {
             } catch (e: Exception) {
                 return
             }
+        } else if (activity.isRestrictedSAFOnlyRoot(path)) {
+            try {
+                ExifInterface(activity.contentResolver.openInputStream(activity.getAndroidSAFUri(path))!!)
+            } catch (e: Exception) {
+                return
+            }
         } else {
             ExifInterface(path)
         }
@@ -263,7 +284,7 @@ class PropertiesDialog() {
             return
         }
 
-        mInflater.inflate(R.layout.property_item, mPropertyView, false).apply {
+        mInflater.inflate(R.layout.item_property, mPropertyView, false).apply {
             property_value.setTextColor(mActivity.baseConfig.textColor)
             property_label.setTextColor(mActivity.baseConfig.textColor)
 

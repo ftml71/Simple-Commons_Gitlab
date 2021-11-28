@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.content.pm.ShortcutManager
 import android.content.res.Configuration
 import android.database.Cursor
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Point
 import android.media.MediaMetadataRetriever
@@ -109,10 +110,12 @@ fun Context.getLinkTextColor(): Int {
 fun Context.isBlackAndWhiteTheme() = baseConfig.textColor == Color.WHITE && baseConfig.primaryColor == Color.BLACK && baseConfig.backgroundColor == Color.BLACK
 
 fun Context.isWhiteTheme() = baseConfig.textColor == DARK_GREY && baseConfig.primaryColor == Color.WHITE && baseConfig.backgroundColor == Color.WHITE
+fun Context.isUsingSystemDarkTheme() = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES != 0
 /**
  * mahsa ==> isDarkTheme added
  */
 fun Context.isDarkTheme() = baseConfig.textColor == R.color.theme_dark_text_color && baseConfig.primaryColor == R.color.color_background_night && baseConfig.backgroundColor == R.color.theme_dark_background_color
+
 fun Context.getAdjustedPrimaryColor() = when {
     /**
      * mahsa ==> isDarkTheme added
@@ -395,7 +398,9 @@ fun Context.getMimeTypeFromUri(uri: Uri): String {
 }
 
 fun Context.ensurePublicUri(path: String, applicationId: String): Uri? {
-    return if (isPathOnOTG(path)) {
+    return if (isRestrictedSAFOnlyRoot(path)) {
+        getAndroidSAFUri(path)
+    } else if (isPathOnOTG(path)) {
         getDocumentFile(path)?.uri
     } else {
         val uri = Uri.parse(path)
@@ -503,7 +508,7 @@ fun Context.updateSDCardPath() {
         val oldPath = baseConfig.sdCardPath
         baseConfig.sdCardPath = getSDCardPath()
         if (oldPath != baseConfig.sdCardPath) {
-            baseConfig.treeUri = ""
+            baseConfig.sdTreeUri = ""
         }
     }
 }
@@ -755,9 +760,27 @@ fun Context.getTimeFormat() = if (baseConfig.use24HourFormat) TIME_FORMAT_24 els
 
 fun Context.getResolution(path: String): Point? {
     return if (path.isImageFast() || path.isImageSlow()) {
-        path.getImageResolution()
+        getImageResolution(path)
     } else if (path.isVideoFast() || path.isVideoSlow()) {
         getVideoResolution(path)
+    } else {
+        null
+    }
+}
+
+fun Context.getImageResolution(path: String): Point? {
+    val options = BitmapFactory.Options()
+    options.inJustDecodeBounds = true
+    if (isRestrictedSAFOnlyRoot(path)) {
+        BitmapFactory.decodeStream(contentResolver.openInputStream(getAndroidSAFUri(path)), null, options)
+    } else {
+        BitmapFactory.decodeFile(path, options)
+    }
+
+    val width = options.outWidth
+    val height = options.outHeight
+    return if (width > 0 && height > 0) {
+        Point(options.outWidth, options.outHeight)
     } else {
         null
     }
@@ -766,7 +789,12 @@ fun Context.getResolution(path: String): Point? {
 fun Context.getVideoResolution(path: String): Point? {
     var point = try {
         val retriever = MediaMetadataRetriever()
-        retriever.setDataSource(path)
+        if (isRestrictedSAFOnlyRoot(path)) {
+            retriever.setDataSource(this, getAndroidSAFUri(path))
+        } else {
+            retriever.setDataSource(path)
+        }
+
         val width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
         val height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
         Point(width, height)
