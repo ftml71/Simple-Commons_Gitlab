@@ -17,6 +17,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.Settings
 import android.telecom.TelecomManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -69,7 +70,11 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        if (!packageName.startsWith("com.simplemobiletools.", true)) {
+        /**
+         * mahsa ==> PackageName.startsWith changed
+         */
+        //if (!packageName.startsWith("com.simplemobiletools.", true)) {
+        if (!packageName.startsWith(resources.getString(R.string.daria_package_name), true)) {
             if ((0..50).random() == 10 || baseConfig.appRunCount % 100 == 0) {
                 val label = "You are using a fake version of the app. For your own safety download the original one from www.simplemobiletools.com. Thanks"
                 ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {
@@ -130,7 +135,16 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
         updateActionBarTitle(supportActionBar?.title.toString(), color)
         updateStatusbarColor(color)
-        setTaskDescription(ActivityManager.TaskDescription(null, null, color))
+        //setTaskDescription(ActivityManager.TaskDescription(null, null, color))
+        /**
+         * mahsa try catch added for handle crash
+         */
+        try {
+            setTaskDescription(ActivityManager.TaskDescription(null, null, color))
+        } catch (e: java.lang.Exception) {
+            Log.e("MD",e.toString())
+            e.printStackTrace()
+        }
     }
 
     fun updateStatusbarColor(color: Int) {
@@ -309,7 +323,12 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
     fun startCustomizationActivity() {
-        if (!packageName.contains("slootelibomelpmis".reversed(), true)) {
+        /**
+         * mahsa ==> "slootelibomelpmis".reversed() changed
+         */
+        //if (!packageName.contains("slootelibomelpmis".reversed(), true)) {
+        if (!packageName.contains(resources.getString(R.string.reverse_daria_package_name).reversed(), true)) {
+
             if (baseConfig.appRunCount > 100) {
                 val label = "You are using a fake version of the app. For your own safety download the original one from www.simplemobiletools.com. Thanks"
                 ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {

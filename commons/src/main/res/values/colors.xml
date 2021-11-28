@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#FFF57C00</color>
-    <color name="color_primary_dark">#FFD76D00</color>
-    <color name="color_accent">@color/color_primary</color>
-
+<!--    <color name="color_primary">#FFF57C00</color>-->
+<!--    <color name="color_primary_dark">#FFD76D00</color>-->
+<!--    <color name="color_accent">@color/color_primary</color>-->
+    <!--mahsa color_primary changed-->
+    <color name="color_primary">#fff2f2f2</color>
+    <!-- mahsa color_background_night added-->
+    <color name="color_background_night">#ff222222</color>
+    <!-- mahsa color_background added-->
+    <color name="color_background">#F2F2F2</color>
+    <!-- mahsa color_primary_night added-->
+    <color name="color_primary_night">#ff222222</color>
+    <!--mahsa color_primary_dark changed-->
+    <color name="color_primary_dark">#E9E9EA</color>
+    <!--mahsa color_accent changed-->
+    <color name="color_accent">#EC8E5F</color>
     <color name="pressed_item_foreground">#08000000</color>
     <color name="activated_item_foreground">#44888888</color>
     <color name="divider_grey">#88808080</color>
@@ -19,7 +30,9 @@
     <color name="theme_dark_text_color">@color/md_grey_200</color>
     <color name="theme_dark_background_color">@color/md_grey_800</color>
     <color name="default_text_color">@color/theme_dark_text_color</color>
-    <color name="default_background_color">@color/theme_dark_background_color</color>
+    <!--mahsa default_background_color changed-->
+    <!--    <color name="default_background_color">@color/theme_dark_background_color</color>-->
+    <color name="default_background_color">#F2F2F2</color>
     <color name="theme_solarized_background_color">@color/md_indigo_900_dark</color>
     <color name="theme_solarized_text_color">@color/md_amber_700</color>
     <color name="theme_solarized_primary_color">@color/md_indigo_900</color>
@@ -213,14 +226,18 @@
     <color name="md_green_800_dark">#235F26</color>
     <color name="md_green_900_dark">#113E15</color>
 
-    <color name="md_grey_white">#FFFFFF</color>
+<!--    <color name="md_grey_white">#FFFFFF</color>-->
+<!--    mahsa md_grey_white and md_grey_600 and md_grey_800 changed-->
+    <color name="md_grey_white">#fff2f2f2</color>
     <color name="md_grey_200">#EEEEEE</color>
     <color name="md_grey_300">#E0E0E0</color>
     <color name="md_grey_400">#BDBDBD</color>
     <color name="md_grey_500">#9E9E9E</color>
-    <color name="md_grey_600">#757575</color>
+<!--    <color name="md_grey_600">#757575</color>-->
+    <color name="md_grey_600">#ff252525</color>
     <color name="md_grey_700">#616161</color>
-    <color name="md_grey_800">#424242</color>
+<!--    <color name="md_grey_800">#424242</color>-->
+    <color name="md_grey_800">#ff222222</color>
     <color name="md_grey_black">#000000</color>
 
     <color name="md_grey_white_dark">#DFDFDF</color>

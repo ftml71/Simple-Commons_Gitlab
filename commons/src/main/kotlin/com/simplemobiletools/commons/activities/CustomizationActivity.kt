@@ -137,7 +137,11 @@ class CustomizationActivity : BaseSimpleActivity() {
             )
             put(
                 THEME_DARK,
-                MyTheme(R.string.dark_theme, R.color.theme_dark_text_color, R.color.theme_dark_background_color, R.color.color_primary, R.color.color_primary)
+                /**
+                 * mahsa ==> MyTheme(R.string.dark_theme) and primaryColorId changed
+                 */
+                //MyTheme(R.string.dark_theme, R.color.theme_dark_text_color, R.color.theme_dark_background_color, R.color.color_primary, R.color.color_primary)
+                MyTheme(R.string.dark_theme, R.color.theme_dark_text_color, R.color.theme_dark_background_color, R.color.color_background_night, R.color.color_primary_night)
             )
             //put(THEME_SOLARIZED, MyTheme(R.string.solarized, R.color.theme_solarized_text_color, R.color.theme_solarized_background_color, R.color.theme_solarized_primary_color))
             put(
@@ -240,7 +244,11 @@ class CustomizationActivity : BaseSimpleActivity() {
                 curTextColor = getColor(theme.textColorId)
                 curBackgroundColor = getColor(theme.backgroundColorId)
                 curPrimaryColor = getColor(theme.primaryColorId)
-                curAccentColor = getColor(R.color.color_primary)
+                /**
+                 * mahsa ==> curAccentColor changed
+                 */
+                //curAccentColor = getColor(R.color.color_primary)
+                curAccentColor = getColor(R.color.color_accent)
                 curAppIconColor = getColor(theme.appIconColorId)
                 curNavigationBarColor = getThemeNavigationColor(curSelectedThemeId)
                 setTheme(getThemeId(curPrimaryColor))
@@ -428,7 +436,12 @@ class CustomizationActivity : BaseSimpleActivity() {
     }
 
     private fun handleAccentColorLayout() {
-        customization_accent_color_holder.beVisibleIf(curSelectedThemeId == THEME_WHITE || isCurrentWhiteTheme() || curSelectedThemeId == THEME_BLACK_WHITE || isCurrentBlackAndWhiteTheme())
+        /**
+         * mahsa ==> customization_accent_color_holder beVisible for some themes
+         */
+        //customization_accent_color_holder.beVisibleIf(curSelectedThemeId == THEME_WHITE || isCurrentWhiteTheme() || curSelectedThemeId == THEME_BLACK_WHITE || isCurrentBlackAndWhiteTheme())
+        //customization_accent_color_holder.beVisibleIf(true== isCurrentWhiteTheme())
+        customization_accent_color_holder.beVisibleIf(curSelectedThemeId == THEME_WHITE || isCurrentWhiteTheme() || curSelectedThemeId == THEME_BLACK_WHITE || isCurrentBlackAndWhiteTheme()||curSelectedThemeId == THEME_DARK||curSelectedThemeId == THEME_LIGHT)
         customization_accent_color_label.text = getString(
             if (curSelectedThemeId == THEME_WHITE || isCurrentWhiteTheme()) {
                 R.string.accent_color_white
@@ -441,7 +454,10 @@ class CustomizationActivity : BaseSimpleActivity() {
     private fun isCurrentWhiteTheme() = curTextColor == DARK_GREY && curPrimaryColor == Color.WHITE && curBackgroundColor == Color.WHITE
 
     private fun isCurrentBlackAndWhiteTheme() = curTextColor == Color.WHITE && curPrimaryColor == Color.BLACK && curBackgroundColor == Color.BLACK
-
+    /**
+     * mahsa ==> isCurrentDarkTheme() added
+     */
+    private fun isCurrentDarkTheme() = curTextColor == DARK_GREY && curPrimaryColor == Color.WHITE && curBackgroundColor == Color.WHITE
     private fun pickTextColor() {
         ColorPickerDialog(this, curTextColor) { wasPositivePressed, color ->
             if (wasPositivePressed) {
