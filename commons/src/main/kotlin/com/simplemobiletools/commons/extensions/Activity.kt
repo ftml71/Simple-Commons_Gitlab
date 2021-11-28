@@ -105,7 +105,8 @@ fun Activity.showDonateOrUpgradeDialog() {
     if (getCanAppBeUpgraded()) {
         UpgradeToProDialog(this)
     } else if (!isOrWasThankYouInstalled()) {
-        DonateDialog(this)
+
+            DonateDialog(this)
     }
 }
 
