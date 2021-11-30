@@ -4,7 +4,10 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.extensions.baseConfig
+import com.simplemobiletools.commons.extensions.checkAppSideloading
+import com.simplemobiletools.commons.extensions.isUsingSystemDarkTheme
+import com.simplemobiletools.commons.extensions.showSideloadingDialog
 import com.simplemobiletools.commons.helpers.SIDELOADING_TRUE
 import com.simplemobiletools.commons.helpers.SIDELOADING_UNCHECKED
 
@@ -23,6 +26,36 @@ abstract class BaseSplashActivity : AppCompatActivity() {
             return
         }
 
+//        if (isThankYouInstalled()) {
+//            getSharedTheme {
+//                if (it != null) {
+//                    baseConfig.apply {
+//                        wasSharedThemeForced = true
+//                        isUsingSharedTheme = true
+//                        wasSharedThemeEverActivated = true
+//
+//                        textColor = it.textColor
+//                        backgroundColor = it.backgroundColor
+//                        primaryColor = it.primaryColor
+//                        navigationBarColor = it.navigationBarColor
+//                        accentColor = it.accentColor
+//                    }
+//
+//                    if (baseConfig.appIconColor != it.appIconColor) {
+//                        baseConfig.appIconColor = it.appIconColor
+//                        checkAppIconColor()
+//                    }
+//                }
+//                initActivity()
+//            }
+//        } else {
+//            initActivity()
+//        }
+        /**
+         * mahsa ==> what was in the else was added here
+         */
+        initActivity()
+
         baseConfig.apply {
             if (isUsingAutoTheme) {
                 val isUsingSystemDarkTheme = isUsingSystemDarkTheme()
@@ -33,30 +66,5 @@ abstract class BaseSplashActivity : AppCompatActivity() {
             }
         }
 
-        if (!baseConfig.isUsingAutoTheme && isThankYouInstalled()) {
-            getSharedTheme {
-                if (it != null) {
-                    baseConfig.apply {
-                        wasSharedThemeForced = true
-                        isUsingSharedTheme = true
-                        wasSharedThemeEverActivated = true
-
-                        textColor = it.textColor
-                        backgroundColor = it.backgroundColor
-                        primaryColor = it.primaryColor
-                        navigationBarColor = it.navigationBarColor
-                        accentColor = it.accentColor
-                    }
-
-                    if (baseConfig.appIconColor != it.appIconColor) {
-                        baseConfig.appIconColor = it.appIconColor
-                        checkAppIconColor()
-                    }
-                }
-                initActivity()
-            }
-        } else {
-            initActivity()
-        }
     }
 }

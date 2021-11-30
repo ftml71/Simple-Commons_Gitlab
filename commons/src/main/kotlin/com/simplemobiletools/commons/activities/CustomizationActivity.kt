@@ -62,31 +62,35 @@ class CustomizationActivity : BaseSimpleActivity() {
 
         initColorVariables()
         setupColorsPickers()
-
-        if (isThankYouInstalled()) {
-            val cursorLoader = getMyContentProviderCursorLoader()
-            ensureBackgroundThread {
-                try {
-                    storedSharedTheme = getSharedThemeSync(cursorLoader)
-                    if (storedSharedTheme == null) {
-                        baseConfig.isUsingSharedTheme = false
-                    } else {
-                        baseConfig.wasSharedThemeEverActivated = true
-                    }
-
-                    runOnUiThread {
-                        setupThemes()
-                        apply_to_all_holder.beVisibleIf(storedSharedTheme == null && curSelectedThemeId != THEME_AUTO)
-                    }
-                } catch (e: Exception) {
-                    toast(R.string.update_thank_you)
-                    finish()
-                }
-            }
-        } else {
-            setupThemes()
-            baseConfig.isUsingSharedTheme = false
-        }
+        /**
+         * mahsa ==> popUp handeled
+         */
+//        if (isThankYouInstalled()) {
+//            val cursorLoader = getMyContentProviderCursorLoader()
+//            ensureBackgroundThread {
+//                try {
+//                    storedSharedTheme = getSharedThemeSync(cursorLoader)
+//                    if (storedSharedTheme == null) {
+//                        baseConfig.isUsingSharedTheme = false
+//                    } else {
+//                        baseConfig.wasSharedThemeEverActivated = true
+//                    }
+//
+//                    runOnUiThread {
+//                        setupThemes()
+//                        apply_to_all_holder.beVisibleIf(storedSharedTheme == null)
+//                    }
+//                } catch (e: Exception) {
+//                    toast(R.string.update_thank_you)
+//                    finish()
+//                }
+//            }
+//        } else {
+//            setupThemes()
+//            baseConfig.isUsingSharedTheme = false
+//        }
+        setupThemes()
+        baseConfig.isUsingSharedTheme = false
 
         updateTextColors(customization_holder)
         originalAppIconColor = baseConfig.appIconColor
@@ -197,10 +201,13 @@ class CustomizationActivity : BaseSimpleActivity() {
         }
 
         RadioGroupDialog(this@CustomizationActivity, items, curSelectedThemeId) {
-            if (it == THEME_SHARED && !isThankYouInstalled()) {
-                PurchaseThankYouDialog(this)
-                return@RadioGroupDialog
-            }
+            /**
+             * mahsa ==> popUp handeled
+             */
+//            if (it == THEME_SHARED && !isThankYouInstalled()) {
+//                PurchaseThankYouDialog(this)
+//                return@RadioGroupDialog
+//            }
 
             updateColorTheme(it as Int, true)
             if (it != THEME_CUSTOM && it != THEME_SHARED && it != THEME_AUTO && !baseConfig.wasCustomThemeSwitchDescriptionShown) {
@@ -651,23 +658,26 @@ class CustomizationActivity : BaseSimpleActivity() {
     private fun getUpdatedTheme() = if (curSelectedThemeId == THEME_SHARED) THEME_SHARED else getCurrentThemeId()
 
     private fun applyToAll() {
-        if (isThankYouInstalled()) {
-            ConfirmationDialog(this, "", R.string.share_colors_success, R.string.ok, 0) {
-                Intent().apply {
-                    action = MyContentProvider.SHARED_THEME_ACTIVATED
-                    sendBroadcast(this)
-                }
-
-                if (!predefinedThemes.containsKey(THEME_SHARED)) {
-                    predefinedThemes[THEME_SHARED] = MyTheme(R.string.shared, 0, 0, 0, 0,0)
-                }
-                baseConfig.wasSharedThemeEverActivated = true
-                apply_to_all_holder.beGone()
-                updateColorTheme(THEME_SHARED)
-                saveChanges(false)
-            }
-        } else {
-            PurchaseThankYouDialog(this)
-        }
+        /**
+         * mahsa ==> popUp handeled
+         */
+//        if (isThankYouInstalled()) {
+//            ConfirmationDialog(this, "", R.string.share_colors_success, R.string.ok, 0) {
+//                Intent().apply {
+//                    action = MyContentProvider.SHARED_THEME_ACTIVATED
+//                    sendBroadcast(this)
+//                }
+//
+//                if (!predefinedThemes.containsKey(THEME_SHARED)) {
+//                    predefinedThemes[THEME_SHARED] = MyTheme(R.string.shared, 0, 0, 0, 0)
+//                }
+//                baseConfig.wasSharedThemeEverActivated = true
+//                apply_to_all_holder.beGone()
+//                updateColorTheme(THEME_SHARED)
+//                saveChanges(false)
+//            }
+//        } else {
+//            PurchaseThankYouDialog(this)
+//        }
     }
 }

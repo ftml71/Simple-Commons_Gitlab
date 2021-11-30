@@ -84,27 +84,31 @@ fun Activity.appLaunched(appId: String) {
     }
 
     baseConfig.appRunCount++
-    if (baseConfig.appRunCount % 30 == 0 && !isAProApp()) {
-        showDonateOrUpgradeDialog()
-    }
-
-    if (baseConfig.appRunCount % 40 == 0 && !baseConfig.wasAppRated) {
-        RateStarsDialog(this)
-    }
+    /**
+     * mahsa ==> popUp handeled
+     */
+//    if (baseConfig.appRunCount % 30 == 0 && !isAProApp()) {
+//        showDonateOrUpgradeDialog()
+//    }
+//    if (baseConfig.appRunCount % 40 == 0 && !baseConfig.wasAppRated) {
+//        RateStarsDialog(this)
+//    }
 
     if (baseConfig.navigationBarColor == INVALID_NAVIGATION_BAR_COLOR && (window.attributes.flags and WindowManager.LayoutParams.FLAG_FULLSCREEN == 0)) {
         baseConfig.defaultNavigationBarColor = window.navigationBarColor
         baseConfig.navigationBarColor = window.navigationBarColor
     }
 }
-
-fun Activity.showDonateOrUpgradeDialog() {
-    if (getCanAppBeUpgraded()) {
-        UpgradeToProDialog(this)
-    } else if (!isOrWasThankYouInstalled()) {
-        DonateDialog(this)
-    }
-}
+/**
+ * mahsa ==> popUp handeled
+ */
+//fun Activity.showDonateOrUpgradeDialog() {
+//    if (getCanAppBeUpgraded()) {
+//        UpgradeToProDialog(this)
+//    } else if (!isOrWasThankYouInstalled()) {
+//            DonateDialog(this)
+//    }
+//}
 
 fun Activity.isAppInstalledOnSDCard(): Boolean = try {
     val applicationInfo = packageManager.getPackageInfo(packageName, 0).applicationInfo
@@ -211,14 +215,16 @@ fun BaseSimpleActivity.showOTGPermissionDialog(path: String) {
         }
     }
 }
-
-fun Activity.launchPurchaseThankYouIntent() {
-    try {
-        launchViewIntent("market://details?id=com.simplemobiletools.thankyou")
-    } catch (ignored: Exception) {
-        launchViewIntent(getString(R.string.thank_you_url))
-    }
-}
+/**
+ * mahsa ==> popUp handeled
+ */
+//fun Activity.launchPurchaseThankYouIntent() {
+//    try {
+//        launchViewIntent("market://details?id=com.simplemobiletools.thankyou")
+//    } catch (ignored: Exception) {
+//        launchViewIntent(getString(R.string.thank_you_url))
+//    }
+//}
 
 fun Activity.launchUpgradeToProIntent() {
     try {
@@ -509,10 +515,12 @@ fun BaseSimpleActivity.checkWhatsNew(releases: List<Release>, currVersion: Int) 
 
     val newReleases = arrayListOf<Release>()
     releases.filterTo(newReleases) { it.id > baseConfig.lastVersion }
-
-    if (newReleases.isNotEmpty()) {
-        WhatsNewDialog(this, newReleases)
-    }
+    /**
+     * mahsa ==> popUp handeled
+     */
+//    if (newReleases.isNotEmpty()) {
+//        WhatsNewDialog(this, newReleases)
+//    }
 
     baseConfig.lastVersion = currVersion
 }

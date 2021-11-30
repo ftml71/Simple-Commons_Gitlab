@@ -10,7 +10,7 @@ import android.view.Menu
 import androidx.core.net.toUri
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.commons.dialogs.ConfirmationAdvancedDialog
-import com.simplemobiletools.commons.dialogs.RateStarsDialog
+import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
@@ -65,7 +65,7 @@ class AboutActivity : BaseSimpleActivity() {
         setupEmail()
         setupFAQ()
         setupMoreApps()
-        setupRateUs()
+//        setupRateUs()
         setupInvite()
         setupContributors()
         setupLicense()
@@ -157,27 +157,32 @@ class AboutActivity : BaseSimpleActivity() {
         }
     }
 
-    private fun setupRateUs() {
-        about_rate_us_holder.setOnClickListener {
-            if (baseConfig.wasBeforeRateShown) {
-                if (baseConfig.wasAppRated) {
-                    redirectToRateUs()
-                } else {
-                    RateStarsDialog(this)
-                }
-            } else {
-                baseConfig.wasBeforeRateShown = true
-                val msg = "${getString(R.string.before_rate_read_faq)}\n\n${getString(R.string.make_sure_latest)}"
-                ConfirmationAdvancedDialog(this, msg, 0, R.string.read_faq, R.string.skip) { success ->
-                    if (success) {
-                        about_faq_holder.performClick()
-                    } else {
-                        about_rate_us_holder.performClick()
-                    }
-                }
-            }
-        }
-    }
+//    private fun setupRateUs() {
+//        if (baseConfig.appRunCount < 5) {
+//            about_rate_us.visibility = View.GONE
+//        } else {
+//            about_rate_us.setOnClickListener {
+//                if (baseConfig.wasBeforeRateShown) {
+//                    if (baseConfig.wasAppRated) {
+//                        redirectToRateUs()
+//                    } else {
+//                        RateStarsDialog(this)
+//                    }
+//                } else {
+//                    baseConfig.wasBeforeRateShown = true
+//                    val msg = "${getString(R.string.before_rate_read_faq)}\n\n${getString(R.string.make_sure_latest)}"
+//                    ConfirmationAdvancedDialog(this, msg, 0, R.string.read_faq, R.string.skip) {
+//                        if (it) {
+//                            about_faq_label.performClick()
+//                        } else {
+//                            about_rate_us.performClick()
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        about_rate_us.setTextColor(linkColor)
+//    }
 
     private fun setupLicense() {
         about_licenses_holder.setOnClickListener {
