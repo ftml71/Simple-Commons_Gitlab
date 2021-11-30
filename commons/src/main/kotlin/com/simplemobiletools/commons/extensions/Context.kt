@@ -67,6 +67,10 @@ val Context.areSystemAnimationsEnabled: Boolean get() = Settings.Global.getFloat
 fun Context.updateTextColors(viewGroup: ViewGroup, tmpTextColor: Int = 0, tmpAccentColor: Int = 0) {
     val textColor = if (tmpTextColor == 0) baseConfig.textColor else tmpTextColor
     val backgroundColor = baseConfig.backgroundColor
+    /**
+     * mahsa ==> cardColor added
+     */
+    val cardColor =  baseConfig.cardColor
     val accentColor = if (tmpAccentColor == 0) {
         when {
             isWhiteTheme() || isBlackAndWhiteTheme() -> baseConfig.accentColor
@@ -92,6 +96,10 @@ fun Context.updateTextColors(viewGroup: ViewGroup, tmpTextColor: Int = 0, tmpAcc
             is MyAutoCompleteTextView -> it.setColors(textColor, accentColor, backgroundColor)
             is MyFloatingActionButton -> it.setColors(textColor, accentColor, backgroundColor)
             is MySeekBar -> it.setColors(textColor, accentColor, backgroundColor)
+            /**
+             * mahsa ==> MyCradView added
+             */
+            is MyCradView -> it.setColors(cardColor)
             is MyButton -> it.setColors(textColor, accentColor, backgroundColor)
             is MyTextInputLayout -> it.setColors(textColor, accentColor, backgroundColor)
             is ViewGroup -> updateTextColors(it, textColor, accentColor)
@@ -471,13 +479,20 @@ fun Context.getSharedThemeSync(cursorLoader: CursorLoader): SharedTheme? {
         if (cursor.moveToFirst()) {
             try {
                 val textColor = cursor.getIntValue(COL_TEXT_COLOR)
+                /**
+                 * mahsa ==> cardColor added
+                 */
+                val cardColor = cursor.getIntValue(MyContentProvider.COL_CARD_COLOR)
                 val backgroundColor = cursor.getIntValue(COL_BACKGROUND_COLOR)
                 val primaryColor = cursor.getIntValue(COL_PRIMARY_COLOR)
                 val accentColor = cursor.getIntValue(COL_ACCENT_COLOR)
                 val appIconColor = cursor.getIntValue(COL_APP_ICON_COLOR)
                 val navigationBarColor = cursor.getIntValueOrNull(COL_NAVIGATION_BAR_COLOR) ?: INVALID_NAVIGATION_BAR_COLOR
                 val lastUpdatedTS = cursor.getIntValue(COL_LAST_UPDATED_TS)
-                return SharedTheme(textColor, backgroundColor, primaryColor, appIconColor, navigationBarColor, lastUpdatedTS, accentColor)
+                /**
+                 * mahsa ==> cardColor added
+                 */
+                return SharedTheme(textColor, backgroundColor, primaryColor, appIconColor, navigationBarColor, lastUpdatedTS, accentColor,cardColor)
             } catch (e: Exception) {
             }
         }

@@ -19,6 +19,10 @@ class MyContentProvider {
         const val COL_APP_ICON_COLOR = "app_icon_color"
         const val COL_NAVIGATION_BAR_COLOR = "navigation_bar_color"
         const val COL_LAST_UPDATED_TS = "last_updated_ts"
+        /**
+         * mahsa ==> COL_CARD_COLOR added
+         */
+        const val COL_CARD_COLOR = "card_color"
 
         fun fillThemeContentValues(sharedTheme: SharedTheme) = ContentValues().apply {
             put(COL_TEXT_COLOR, sharedTheme.textColor)

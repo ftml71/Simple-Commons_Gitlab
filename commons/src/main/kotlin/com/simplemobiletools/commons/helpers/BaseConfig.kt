@@ -92,7 +92,12 @@ open class BaseConfig(val context: Context) {
     var primaryColor: Int
         get() = prefs.getInt(PRIMARY_COLOR, context.resources.getColor(R.color.color_primary))
         set(primaryColor) = prefs.edit().putInt(PRIMARY_COLOR, primaryColor).apply()
-
+    /**
+     * mahsa ==> cardColor added
+     */
+    var cardColor: Int
+        get() = prefs.getInt(CARD_COLOR, context.resources.getColor(R.color.color_card_light))
+        set(cardColor) = prefs.edit().putInt(CARD_COLOR, cardColor).apply()
     var accentColor: Int
         //get() = prefs.getInt(ACCENT_COLOR, context.resources.getColor(R.color.color_primary))
         get() = prefs.getInt(ACCENT_COLOR, context.resources.getColor(R.color.color_accent))
@@ -140,7 +145,12 @@ open class BaseConfig(val context: Context) {
     var customAppIconColor: Int
         get() = prefs.getInt(CUSTOM_APP_ICON_COLOR, appIconColor)
         set(customAppIconColor) = prefs.edit().putInt(CUSTOM_APP_ICON_COLOR, customAppIconColor).apply()
-
+    /**
+     * mahsa ==> customCardColor added
+     */
+    var customCardColor: Int
+        get() = prefs.getInt(CUSTOM_CARD_COLOR, cardColor)
+        set(customCardColor) = prefs.edit().putInt(CUSTOM_CARD_COLOR, customCardColor).apply()
     var customNavigationBarColor: Int
         get() = prefs.getInt(CUSTOM_NAVIGATION_BAR_COLOR, INVALID_NAVIGATION_BAR_COLOR)
         set(customNavigationBarColor) = prefs.edit().putInt(CUSTOM_NAVIGATION_BAR_COLOR, customNavigationBarColor).apply()

@@ -33,6 +33,10 @@ class CustomizationActivity : BaseSimpleActivity() {
     private var curPrimaryColor = 0
     private var curAccentColor = 0
     private var curAppIconColor = 0
+    /**
+     * mahsa ==> curCardColor added
+     */
+    private var curCardColor = 0
     private var curSelectedThemeId = 0
     private var originalAppIconColor = 0
     private var lastSavePromptTS = 0L
@@ -135,7 +139,8 @@ class CustomizationActivity : BaseSimpleActivity() {
                     R.color.theme_light_text_color,
                     R.color.theme_light_background_color,
                     R.color.color_primary,
-                    R.color.color_primary
+                    R.color.color_primary,R.color.color_card_light
+
                 )
             )
             put(
@@ -144,7 +149,7 @@ class CustomizationActivity : BaseSimpleActivity() {
                  * mahsa ==> MyTheme(R.string.dark_theme) and primaryColorId changed
                  */
                 //MyTheme(R.string.dark_theme, R.color.theme_dark_text_color, R.color.theme_dark_background_color, R.color.color_primary, R.color.color_primary)
-                MyTheme(R.string.dark_theme, R.color.theme_dark_text_color, R.color.theme_dark_background_color, R.color.color_background_night, R.color.color_primary_night)
+                MyTheme(R.string.dark_theme, R.color.theme_dark_text_color, R.color.theme_dark_background_color, R.color.color_background_night, R.color.color_primary_night,R.color.color_card_dark)
             )
             //put(THEME_SOLARIZED, MyTheme(R.string.solarized, R.color.theme_solarized_text_color, R.color.theme_solarized_background_color, R.color.theme_solarized_primary_color))
             put(
@@ -154,15 +159,15 @@ class CustomizationActivity : BaseSimpleActivity() {
                     R.color.theme_dark_text_color,
                     R.color.theme_dark_background_color,
                     R.color.theme_dark_red_primary_color,
-                    R.color.md_red_700
+                    R.color.md_red_700,R.color.color_card_dark
                 )
             )
-            put(THEME_WHITE, MyTheme(R.string.white, R.color.dark_grey, android.R.color.white, android.R.color.white, R.color.color_primary))
-            put(THEME_BLACK_WHITE, MyTheme(R.string.black_white, android.R.color.white, android.R.color.black, android.R.color.black, R.color.md_grey_black))
-            put(THEME_CUSTOM, MyTheme(R.string.custom, 0, 0, 0, 0))
+            put(THEME_WHITE, MyTheme(R.string.white, R.color.dark_grey, android.R.color.white, android.R.color.white, R.color.color_primary,R.color.color_card_light))
+            put(THEME_BLACK_WHITE, MyTheme(R.string.black_white, android.R.color.white, android.R.color.black, android.R.color.black, R.color.md_grey_black,R.color.color_card_dark))
+            put(THEME_CUSTOM, MyTheme(R.string.custom, 0, 0, 0, 0,0))
 
             if (storedSharedTheme != null) {
-                put(THEME_SHARED, MyTheme(R.string.shared, 0, 0, 0, 0))
+                put(THEME_SHARED, MyTheme(R.string.shared, 0, 0, 0, 0,0))
             }
         }
         setupThemePicker()
@@ -215,6 +220,10 @@ class CustomizationActivity : BaseSimpleActivity() {
             if (curSelectedThemeId == THEME_CUSTOM) {
                 if (useStored) {
                     curTextColor = baseConfig.customTextColor
+                    /**
+                     * mahsa ==> curCardColor added
+                     */
+                    curCardColor=baseConfig.customCardColor
                     curBackgroundColor = baseConfig.customBackgroundColor
                     curPrimaryColor = baseConfig.customPrimaryColor
                     curAccentColor = baseConfig.customAccentColor
@@ -224,6 +233,10 @@ class CustomizationActivity : BaseSimpleActivity() {
                     updateMenuItemColors(menu, true, curPrimaryColor)
                     setupColorsPickers()
                 } else {
+                    /**
+                     * mahsa ==> baseConfig.customCardColor added
+                     */
+                    baseConfig.customCardColor=curCardColor
                     baseConfig.customPrimaryColor = curPrimaryColor
                     baseConfig.customAccentColor = curAccentColor
                     baseConfig.customBackgroundColor = curBackgroundColor
@@ -237,6 +250,10 @@ class CustomizationActivity : BaseSimpleActivity() {
                         curTextColor = textColor
                         curBackgroundColor = backgroundColor
                         curPrimaryColor = primaryColor
+                        /**
+                         * mahsa ==> curCardColor added
+                         */
+                        curCardColor = cardColor
                         curAccentColor = accentColor
                         curAppIconColor = appIconColor
                         curNavigationBarColor = navigationBarColor
@@ -249,17 +266,17 @@ class CustomizationActivity : BaseSimpleActivity() {
                 val theme = predefinedThemes[curSelectedThemeId]!!
                 curTextColor = getColor(theme.textColorId)
                 curBackgroundColor = getColor(theme.backgroundColorId)
+                /**
+                 * mahsa ==> curCardColor added
+                 */
+                curCardColor = getColor(theme.cardView)
 
                 if (curSelectedThemeId != THEME_AUTO) {
                     curPrimaryColor = getColor(theme.primaryColorId)
-                    /**
-                     * mahsa ==> curAccentColor changed
-                     */
-                    //curAccentColor = getColor(R.color.color_primary)
-                    curAccentColor = getColor(R.color.color_accent)
+
+                    curAccentColor = getColor(R.color.color_primary)
                     curAppIconColor = getColor(theme.appIconColorId)
                 }
-
                 curNavigationBarColor = getThemeNavigationColor(curSelectedThemeId)
                 setTheme(getThemeId(curPrimaryColor))
                 colorChanged()
@@ -282,7 +299,10 @@ class CustomizationActivity : BaseSimpleActivity() {
         val isUsingSystemDarkTheme = isUsingSystemDarkTheme()
         val textColor = if (isUsingSystemDarkTheme) R.color.theme_dark_text_color else R.color.theme_light_text_color
         val backgroundColor = if (isUsingSystemDarkTheme) R.color.theme_dark_background_color else R.color.theme_light_background_color
-        return MyTheme(R.string.auto_theme, textColor, backgroundColor, R.color.color_primary, R.color.color_primary)
+        /**
+         * mahsa ==> R.color.color_card_light added
+         */
+        return MyTheme(R.string.auto_theme, textColor, backgroundColor, R.color.color_primary, R.color.color_primary,R.color.color_card_light)
     }
 
     private fun getCurrentThemeId(): Int {
@@ -354,7 +374,10 @@ class CustomizationActivity : BaseSimpleActivity() {
             primaryColor = curPrimaryColor
             accentColor = curAccentColor
             appIconColor = curAppIconColor
-
+            /**
+             * mahsa ==> cardColor added
+             */
+            cardColor=curCardColor
             // -1 is used as an invalid value, lets make use of it for white
             navigationBarColor = if (curNavigationBarColor == INVALID_NAVIGATION_BAR_COLOR) {
                 -2
@@ -368,7 +391,11 @@ class CustomizationActivity : BaseSimpleActivity() {
         }
 
         if (curSelectedThemeId == THEME_SHARED) {
-            val newSharedTheme = SharedTheme(curTextColor, curBackgroundColor, curPrimaryColor, curAppIconColor, curNavigationBarColor, 0, curAccentColor)
+            /**
+             * mahsa ==> curCardColor added
+             */
+            val newSharedTheme = SharedTheme(curTextColor, curBackgroundColor, curPrimaryColor, curAppIconColor, curNavigationBarColor, 0, curAccentColor,curCardColor)
+
             updateSharedTheme(newSharedTheme)
             Intent().apply {
                 action = MyContentProvider.SHARED_THEME_UPDATED
@@ -402,6 +429,10 @@ class CustomizationActivity : BaseSimpleActivity() {
 
     private fun initColorVariables() {
         curTextColor = baseConfig.textColor
+        /**
+         * mahsa ==> curCardColor added
+         */
+        curCardColor = baseConfig.cardColor
         curBackgroundColor = baseConfig.backgroundColor
         curPrimaryColor = baseConfig.primaryColor
         curAccentColor = baseConfig.accentColor
@@ -410,6 +441,10 @@ class CustomizationActivity : BaseSimpleActivity() {
     }
 
     private fun setupColorsPickers() {
+        /**
+         * mahsa ==> customization_card_color added
+         */
+        customization_card_color.setFillWithStroke(curCardColor, curBackgroundColor)
         customization_text_color.setFillWithStroke(curTextColor, curBackgroundColor)
         customization_primary_color.setFillWithStroke(curPrimaryColor, curBackgroundColor)
         customization_accent_color.setFillWithStroke(curAccentColor, curBackgroundColor)
@@ -422,6 +457,10 @@ class CustomizationActivity : BaseSimpleActivity() {
         customization_background_color_holder.setOnClickListener { pickBackgroundColor() }
         customization_primary_color_holder.setOnClickListener { pickPrimaryColor() }
         customization_accent_color_holder.setOnClickListener { pickAccentColor() }
+        /**
+         * mahsa ==> customization_card_color_holder added
+         */
+        customization_card_color_holder.setOnClickListener { pickCardColor() }
 
         handleAccentColorLayout()
         customization_navigation_bar_color_holder.setOnClickListener { pickNavigationBarColor() }
@@ -453,7 +492,12 @@ class CustomizationActivity : BaseSimpleActivity() {
         curTextColor = color
         updateTextColors(customization_holder, color)
     }
-
+    /**
+     * mahsa ==> setCurrentCardColor added
+     */
+    private fun setCurrentCardColor(color: Int) {
+        curCardColor = color
+    }
     private fun setCurrentBackgroundColor(color: Int) {
         curBackgroundColor = color
         updateBackgroundColor(color)
@@ -514,7 +558,23 @@ class CustomizationActivity : BaseSimpleActivity() {
             }
         }
     }
+    /**
+     * mahsa ==> pickCardColor added
+     */
+    private fun pickCardColor() {
+        ColorPickerDialog(this, curCardColor) { wasPositivePressed, color ->
+            if (wasPositivePressed) {
+                if (hasColorChanged(curCardColor, color)) {
+                    setCurrentCardColor(color)
+                    colorChanged()
 
+                    updateColorTheme(getUpdatedTheme())
+
+                    curCardColor = color
+                }
+            }
+        }
+    }
     private fun pickBackgroundColor() {
         ColorPickerDialog(this, curBackgroundColor) { wasPositivePressed, color ->
             if (wasPositivePressed) {
@@ -599,7 +659,7 @@ class CustomizationActivity : BaseSimpleActivity() {
                 }
 
                 if (!predefinedThemes.containsKey(THEME_SHARED)) {
-                    predefinedThemes[THEME_SHARED] = MyTheme(R.string.shared, 0, 0, 0, 0)
+                    predefinedThemes[THEME_SHARED] = MyTheme(R.string.shared, 0, 0, 0, 0,0)
                 }
                 baseConfig.wasSharedThemeEverActivated = true
                 apply_to_all_holder.beGone()

@@ -19,6 +19,10 @@ const val APP_FAQ = "app_faq"
 const val APP_VERSION_NAME = "app_version_name"
 const val APP_ICON_IDS = "app_icon_ids"
 const val APP_ID = "app_id"
+/**
+ * mahsa ==> CARD_COLOR added
+ */
+const val CARD_COLOR = "card_color"
 const val APP_LAUNCHER_NAME = "app_launcher_name"
 const val REAL_FILE_PATH = "real_file_path_2"
 const val IS_FROM_GALLERY = "is_from_gallery"
@@ -85,6 +89,10 @@ const val DEFAULT_NAVIGATION_BAR_COLOR = "default_navigation_bar_color"
 const val LAST_HANDLED_SHORTCUT_COLOR = "last_handled_shortcut_color"
 const val LAST_ICON_COLOR = "last_icon_color"
 const val CUSTOM_TEXT_COLOR = "custom_text_color"
+/**
+ * mahsa ==> CUSTOM_CARD_COLOR added
+ */
+const val CUSTOM_CARD_COLOR = "custom_card_color"
 const val CUSTOM_BACKGROUND_COLOR = "custom_background_color"
 const val CUSTOM_PRIMARY_COLOR = "custom_primary_color"
 const val CUSTOM_ACCENT_COLOR = "custom_accent_color"
