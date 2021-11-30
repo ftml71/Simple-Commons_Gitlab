@@ -325,14 +325,16 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             startActivity(this)
         }
     }
-
-    fun handleCustomizeColorsClick() {
-        if (isOrWasThankYouInstalled()) {
-            startCustomizationActivity()
-        } else {
-            launchPurchaseThankYouIntent()
-        }
-    }
+    /**
+     * mahsa ==> popUp handeled
+     */
+//    fun handleCustomizeColorsClick() {
+//        if (isOrWasThankYouInstalled()) {
+//            startCustomizationActivity()
+//        } else {
+//            launchPurchaseThankYouIntent()
+//        }
+//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun launchCustomizeNotificationsIntent() {

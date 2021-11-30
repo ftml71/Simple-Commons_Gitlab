@@ -436,14 +436,24 @@ fun Context.getSizeFromContentUri(uri: Uri): Long {
 }
 
 fun Context.getSharedTheme(callback: (sharedTheme: SharedTheme?) -> Unit) {
-    if (!isThankYouInstalled()) {
-        callback(null)
-    } else {
-        val cursorLoader = getMyContentProviderCursorLoader()
-        ensureBackgroundThread {
-            callback(getSharedThemeSync(cursorLoader))
-        }
-    }
+    /**
+     * mahsa ==> popUp handeled
+     */
+//    if (!isThankYouInstalled()) {
+//        callback(null)
+//    } else {
+//        val cursorLoader = getMyContentProviderCursorLoader()
+//        ensureBackgroundThread {
+//            callback(getSharedThemeSync(cursorLoader))
+//        }
+//    }
+    /**
+     * mahsa ==> what was in the else was added here
+     */
+    val cursorLoader = getMyContentProviderCursorLoader()
+    ensureBackgroundThread {
+           callback(getSharedThemeSync(cursorLoader))
+       }
 }
 
 fun Context.getSharedThemeSync(cursorLoader: CursorLoader): SharedTheme? {
@@ -501,29 +511,36 @@ fun Context.getUriMimeType(path: String, newUri: Uri): String {
     }
     return mimeType
 }
+/**
+ * mahsa ==> popUp handeled
+ */
+//fun Context.isThankYouInstalled() = isPackageInstalled("com.simplemobiletools.thankyou")
 
-fun Context.isThankYouInstalled() = isPackageInstalled("com.simplemobiletools.thankyou")
-
-fun Context.isOrWasThankYouInstalled(): Boolean {
-    return when {
-        baseConfig.hadThankYouInstalled -> true
-        isThankYouInstalled() -> {
-            baseConfig.hadThankYouInstalled = true
-            true
-        }
-        else -> false
-    }
-}
+//fun Context.isOrWasThankYouInstalled(): Boolean {
+//    return when {
+//        baseConfig.hadThankYouInstalled -> true
+//        isThankYouInstalled() -> {
+//            baseConfig.hadThankYouInstalled = true
+//            true
+//        }
+//        else -> false
+//    }
+//}
 
 fun Context.isAProApp() = packageName.startsWith("com.simplemobiletools.") && packageName.removeSuffix(".debug").endsWith(".pro")
-
+/**
+ * mahsa ==> popUp handeled
+ */
 fun Context.getCustomizeColorsString(): String {
-    val textId = if (isOrWasThankYouInstalled()) {
-        R.string.customize_colors
-    } else {
-        R.string.customize_colors_locked
-    }
-
+//    val textId = if (isOrWasThankYouInstalled()) {
+//        R.string.customize_colors
+//    } else {
+//        R.string.customize_colors_locked
+//    }
+    /**
+     * mahsa ==> what was in the else was added here
+    */
+    val textId =R.string.customize_colors_locked
     return getString(textId)
 }
 

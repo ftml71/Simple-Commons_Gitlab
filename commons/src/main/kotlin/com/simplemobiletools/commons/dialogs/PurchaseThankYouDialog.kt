@@ -6,7 +6,6 @@ import android.text.method.LinkMovementMethod
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.R
 import com.simplemobiletools.commons.extensions.baseConfig
-import com.simplemobiletools.commons.extensions.launchPurchaseThankYouIntent
 import com.simplemobiletools.commons.extensions.setupDialogStuff
 import kotlinx.android.synthetic.main.dialog_purchase_thank_you.view.*
 /**
