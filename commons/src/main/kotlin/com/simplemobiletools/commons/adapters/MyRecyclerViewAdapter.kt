@@ -13,6 +13,7 @@ import com.simplemobiletools.commons.R
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.baseConfig
 import com.simplemobiletools.commons.extensions.getAdjustedPrimaryColor
+import com.simplemobiletools.commons.extensions.getColoredDrawableWithColor
 import com.simplemobiletools.commons.extensions.getContrastColor
 import com.simplemobiletools.commons.interfaces.MyActionModeCallback
 import com.simplemobiletools.commons.views.MyRecyclerView
@@ -71,6 +72,8 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
                 isSelectable = true
                 actMode = actionMode
                 actBarTextView = layoutInflater.inflate(R.layout.actionbar_title, null) as TextView
+                //mahsa ==> actBarTextView!!.setTextColor added
+                actBarTextView!!.setTextColor(baseConfig.primaryColor.getContrastColor())
                 actBarTextView!!.layoutParams = ActionBar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
                 actMode!!.customView = actBarTextView
                 actBarTextView!!.setOnClickListener {
@@ -80,7 +83,10 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
                         selectAll()
                     }
                 }
+
                 activity.menuInflater.inflate(getActionMenuId(), menu)
+                //mahsa ==> updateMenuItemColors added
+                activity.updateMenuItemColors(menu)
                 onActionModeCreated()
                 return true
             }
