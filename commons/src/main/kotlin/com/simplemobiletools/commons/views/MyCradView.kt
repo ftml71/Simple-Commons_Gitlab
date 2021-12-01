@@ -18,7 +18,7 @@ class MyCradView : CardView {
     fun setColors( backgroundColor: Int) {
 //        background?.setTint(textColor)
         setCardBackgroundColor(backgroundColor)
-        setRadius(100f)
+        setRadius(150f)
         setPadding(55, 55, 55, 55)
                 // requires android:textCursorDrawable="@null" in xml to color the cursor too
     }
