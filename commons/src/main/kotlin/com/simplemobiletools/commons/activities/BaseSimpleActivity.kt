@@ -370,16 +370,18 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
          * mahsa ==> "slootelibomelpmis".reversed() changed
          */
         //if (!packageName.contains("slootelibomelpmis".reversed(), true)) {
-        if (!packageName.contains(resources.getString(R.string.reverse_daria_package_name).reversed(), true)) {
-
-            if (baseConfig.appRunCount > 100) {
-                val label = "You are using a fake version of the app. For your own safety download the original one from www.simplemobiletools.com. Thanks"
-                ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {
-                    launchViewIntent("https://play.google.com/store/apps/dev?id=9070296388022589266")
-                }
-                return
-            }
-        }
+//        if (!packageName.contains(resources.getString(R.string.reverse_daria_package_name).reversed(), true)) {
+//            /**
+//             * mahsa ==> popUp handled
+//             */
+//            if (baseConfig.appRunCount > 100) {
+//                val label = "You are using a fake version of the app. For your own safety download the original one from www.simplemobiletools.com. Thanks"
+//                ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {
+//                    launchViewIntent("https://play.google.com/store/apps/dev?id=9070296388022589266")
+//                }
+//                return
+//            }
+//        }
 
         Intent(applicationContext, CustomizationActivity::class.java).apply {
             putExtra(APP_ICON_IDS, getAppIconIDs())
@@ -388,7 +390,7 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
     /**
-     * mahsa ==> popUp handeled
+     * mahsa ==> popUp handled
      */
 //    fun handleCustomizeColorsClick() {
 //        if (isOrWasThankYouInstalled()) {

@@ -63,7 +63,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         initColorVariables()
         setupColorsPickers()
         /**
-         * mahsa ==> popUp handeled
+         * mahsa ==> popUp handled
          */
 //        if (isThankYouInstalled()) {
 //            val cursorLoader = getMyContentProviderCursorLoader()

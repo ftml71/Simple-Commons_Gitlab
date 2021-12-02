@@ -31,6 +31,9 @@ import android.telephony.PhoneNumberUtils
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
@@ -103,10 +106,28 @@ fun Context.updateTextColors(viewGroup: ViewGroup, tmpTextColor: Int = 0, tmpAcc
             is MyButton -> it.setColors(textColor, accentColor, backgroundColor)
             is MyTextInputLayout -> it.setColors(textColor, accentColor, backgroundColor)
             is ViewGroup -> updateTextColors(it, textColor, accentColor)
+            is EditText ->{ it.background?.mutate()?.applyColorFilter(textColor)
+                it.setTextColor(textColor)
+                it.setHintTextColor(textColor.adjustAlpha(MEDIUM_ALPHA))
+                it.setLinkTextColor(textColor)}
         }
     }
 }
-
+fun changeSearchViewTextColor(view: View?, color: Int ) {
+    if (view != null) {
+        if (view is TextView) {
+            view.setTextColor(color)
+            return
+        } else if (view is ImageView) {
+            view.setColorFilter(color)
+        } else if (view is ViewGroup) {
+            val viewGroup = view
+            for (i in 0 until viewGroup.childCount) {
+                changeSearchViewTextColor(viewGroup.getChildAt(i), color)
+            }
+        }
+    }
+}
 fun Context.getLinkTextColor(): Int {
     return if (baseConfig.primaryColor == resources.getColor(R.color.color_primary)) {
         baseConfig.primaryColor
