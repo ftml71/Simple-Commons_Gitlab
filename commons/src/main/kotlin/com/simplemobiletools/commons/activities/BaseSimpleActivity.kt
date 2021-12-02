@@ -8,6 +8,7 @@ import android.app.role.RoleManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -23,6 +24,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -209,7 +211,21 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         val drawableId = if (useCrossAsBack) R.drawable.ic_cross_vector else R.drawable.ic_arrow_left_vector
         val icon = resources.getColoredDrawableWithColor(drawableId, color)
         supportActionBar?.setHomeAsUpIndicator(icon)
+        customizeActionModeCloseButton(R.drawable.ic_arrow_left_vector)
     }
+   //mahsa => customizeActionModeCloseButton
+    fun customizeActionModeCloseButton(iconID: Int) {
+        var buttonId: Int = Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android")
+        var v = findViewById<View>(buttonId)
+        if (v == null) {
+            buttonId = R.id.action_mode_close_button
+            v = findViewById(buttonId)
+        }
+        if (v == null) return
+        val icon = resources.getColoredDrawableWithColor(iconID, baseConfig.textColor)
+        (v as ImageView).setImageDrawable(icon)
+    }
+
 
     private fun getCurrentAppIconColorIndex(): Int {
         val appIconColor = baseConfig.appIconColor
