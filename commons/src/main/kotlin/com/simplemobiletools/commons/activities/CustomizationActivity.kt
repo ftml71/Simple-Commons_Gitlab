@@ -183,14 +183,17 @@ class CustomizationActivity : BaseSimpleActivity() {
         customization_theme.text = getThemeText()
         handleAccentColorLayout()
         customization_theme_holder.setOnClickListener {
-            if (baseConfig.wasAppIconCustomizationWarningShown) {
-                themePickerClicked()
-            } else {
-                ConfirmationDialog(this, "", R.string.app_icon_color_warning, R.string.ok, 0) {
-                    baseConfig.wasAppIconCustomizationWarningShown = true
-                    themePickerClicked()
-                }
-            }
+//            mahsa => popUp handled
+//            if (baseConfig.wasAppIconCustomizationWarningShown) {
+//                themePickerClicked()
+//            } else {
+//                ConfirmationDialog(this, "", R.string.app_icon_color_warning, R.string.ok, 0) {
+//                    baseConfig.wasAppIconCustomizationWarningShown = true
+//                    themePickerClicked()
+//                }
+//            }
+            themePickerClicked()
+
         }
     }
 
