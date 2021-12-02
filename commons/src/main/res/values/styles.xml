@@ -33,7 +33,7 @@
         <item name="colorControlHighlight">@color/activated_item_foreground</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
         <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
-<!--        <item name="android:actionModeCloseDrawable">@drawable/ic_arrow_left_vector_light</item>-->
+        <item name="android:actionModeCloseDrawable">@drawable/ic_arrow_left_vector_light</item>
     </style>
     <style name="MyOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">#000000</item>
