@@ -91,6 +91,10 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        /**
+         * mahsa ==> invalidateOptionsMenu inserted
+         */
+        invalidateOptionsMenu()
         if (useDynamicTheme) {
             setTheme(getThemeId(showTransparentTop = showTransparentTop))
             updateBackgroundColor()
