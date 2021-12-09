@@ -100,9 +100,9 @@ fun Context.updateTextColors(viewGroup: ViewGroup, tmpTextColor: Int = 0, tmpAcc
             is MyFloatingActionButton -> it.setColors(textColor, accentColor, backgroundColor)
             is MySeekBar -> it.setColors(textColor, accentColor, backgroundColor)
             /**
-             * mahsa ==> MyCradView added
+             * mahsa ==> MyCardView added
              */
-            is MyCradView -> it.setColors(cardColor)
+            is MyCardView -> it.setColors(cardColor)
             is MyButton -> it.setColors(textColor, accentColor, backgroundColor)
             is MyTextInputLayout -> it.setColors(textColor, accentColor, backgroundColor)
             is ViewGroup -> updateTextColors(it, textColor, accentColor)

@@ -284,7 +284,7 @@ class CustomizationActivity : BaseSimpleActivity() {
                 if (curSelectedThemeId != THEME_AUTO) {
                     curPrimaryColor = getColor(theme.primaryColorId)
 
-                    curAccentColor = getColor(R.color.color_primary)
+                    curAccentColor = getColor(R.color.color_accent)
                     curAppIconColor = getColor(theme.appIconColorId)
                 }
                 curNavigationBarColor = getThemeNavigationColor(curSelectedThemeId)
