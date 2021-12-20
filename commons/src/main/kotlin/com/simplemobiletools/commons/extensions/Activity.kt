@@ -697,9 +697,10 @@ fun BaseSimpleActivity.deleteFileBg(fileDirItem: FileDirItem, allowDeleteFolder:
     }
 }
 
-private fun deleteRecursively(file: File): Boolean {
+fun Activity.deleteRecursively(file: File): Boolean {
     if (file.isDirectory) {
         val files = file.listFiles() ?: return file.delete()
+        rescanPath(file.path)
         for (child in files) {
             deleteRecursively(child)
         }
